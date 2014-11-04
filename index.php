@@ -17,15 +17,17 @@ else
 $url = $_GET['url']; 
 }
 
-echo "\n". $url."\n"; 
 $file_out = 'pdfs/'. md5( $url).".pdf"; 
 
-if ( file_exists($file_out) ) 
+//disable caching for speed checks
+//if ( file_exists($file_out) ) 
 {
 	print_header($file_out); 
 } 
 
 
-exec("/usr/local/bin/wkhtmltopdf  --orientation Landscape --page-size A3  ". $url." " . $file_out) ; 
+$commd = "/usr/local/bin/wkhtmltopdf  --orientation Landscape --page-size A3  ". escapeshellcmd($url)." " . escapeshellcmd($file_out); 
+exec($commd);
+
 print_header($file_out);
 ?>
